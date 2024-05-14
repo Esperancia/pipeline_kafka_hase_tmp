@@ -6,7 +6,7 @@ def error_callback(exc):
 
 
 def writeToKafka(topic_name, data, kafka_server_url):
-    producer = KafkaProducer(bootstrap_servers=[kafka_server_url])
+    producer = KafkaProducer(bootstrap_servers=[kafka_server_url], api_version=(0,11,5))
     producer.send(topic_name, value=json.dumps(data).encode("utf-8")).add_errback(error_callback)
     producer.flush()
 

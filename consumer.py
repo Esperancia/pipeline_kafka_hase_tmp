@@ -1,13 +1,11 @@
 import json
 import time
-from datetime import datetime
-
 from kafka import KafkaConsumer
 import happybase
 
 
-def connectToHbase(topic_name, hbase_server_url):
-    conn = happybase.Connection(host="localhost", port=16201)
+def connectToHbase(topic_name):
+    conn = happybase.Connection(host="localhost", port=9090)
     conn.open()
     table = conn.table(topic_name)
 
@@ -21,11 +19,11 @@ def connectToHbase(topic_name, hbase_server_url):
     return table
 
 
-def writeInHbase(topic_name, kafka_server_url, hbase_server_url):
+def writeInHbase(topic_name, kafka_server_url):
     while True:
         print("good bye")
-        consumer = KafkaConsumer(topic_name, bootstrap_servers=[kafka_server_url])
-        table = connectToHbase(topic_name, hbase_server_url)
+        consumer = KafkaConsumer(topic_name, bootstrap_servers=[kafka_server_url], api_version=(0,11,5))
+        table = connectToHbase(topic_name)
 
         for message in consumer:
             #print(message)

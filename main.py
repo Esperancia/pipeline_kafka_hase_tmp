@@ -4,6 +4,7 @@ import shutil
 import threading
 
 from kafka.admin import KafkaAdminClient, NewTopic
+
 from consumer import writeInHbase
 from producer import writeToKafka
 
@@ -16,7 +17,7 @@ topic_name = "sensor_data"
 
 def getTopic():
     # Check if topic exists, if not create it
-    admin_client = KafkaAdminClient(bootstrap_servers=kafka_server_url, client_id='PouchPipeline')
+    admin_client = KafkaAdminClient(bootstrap_servers=kafka_server_url, api_version=(0,11,5), client_id='PouchPipeline')
     server_topics = admin_client.list_topics()
 
     #print(server_topics)
